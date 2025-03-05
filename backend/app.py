@@ -21,6 +21,14 @@ CORS(app)  # 启用跨域请求支持
 app.register_blueprint(interview_api, url_prefix='/api/interview')
 app.register_blueprint(speech_api, url_prefix='/api/speech')
 
+# 添加CORS响应头，确保跨域请求正常工作
+@app.after_request
+def add_cors_headers(response):
+    response.headers.add("Access-Control-Allow-Origin", "*")
+    response.headers.add("Access-Control-Allow-Headers", "Content-Type,Authorization")
+    response.headers.add("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE,OPTIONS")
+    return response
+
 # API路由
 @app.route('/api/health', methods=['GET'])
 def health_check():
