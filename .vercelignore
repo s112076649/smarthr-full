@@ -1,0 +1,8 @@
+backend
+smarthr-interview
+__pycache__
+*.pyc
+.git
+.env
+.env.local
+node_modules 

@@ -1,0 +1,16 @@
+{
+  "name": "ai-interview-web-root",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "frontend"
+  ],
+  "scripts": {
+    "start": "cd frontend && npm start",
+    "build": "cd frontend && npm run build",
+    "install-frontend": "cd frontend && npm install"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  }
+} 
