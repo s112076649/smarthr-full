@@ -30,7 +30,7 @@ import {
   ExitToApp as ExitIcon,
   Help as HelpIcon
 } from '@mui/icons-material';
-import axios from 'axios';
+// import axios from 'axios';
 
 // 录音功能
 const useRecorder = () => {
@@ -118,7 +118,7 @@ const Interview = () => {
     setError('');
 
     try {
-      const response = await axios.get(`/api/interview/question?interview_id=${interviewId}`);
+      const response = await api.get(`/api/interview/question?interview_id=${interviewId}`);
       
       if (response.data.status === 'success') {
         const question = response.data.data;
@@ -143,7 +143,7 @@ const Interview = () => {
   // 播放问题语音
   const playQuestionAudio = async (text) => {
     try {
-      const response = await axios.post('/api/speech/tts', {
+      console.log("正在请求TTS API..."); const response = await api.post('/api/speech/tts', {
         text,
         language: session?.language || 'zh'
       });
@@ -171,7 +171,7 @@ const Interview = () => {
     setError('');
 
     try {
-      const response = await axios.post('/api/interview/answer', {
+      console.log("正在请求TTS API..."); const response = await api.post('/api/interview/answer', {
         interview_id: session.interview_id,
         question_id: currentQuestion.id,
         answer: answer
@@ -221,7 +221,7 @@ const Interview = () => {
       formData.append('audio', audioBlob);
       formData.append('language', session?.language || 'zh');
       
-      const response = await axios.post('/api/speech/asr', formData);
+      console.log("正在请求TTS API..."); const response = await api.post('/api/speech/asr', formData);
       
       if (response.data.status === 'success') {
         const recognizedText = response.data.data.text;
