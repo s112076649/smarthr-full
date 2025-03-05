@@ -11,7 +11,7 @@ import requests
 from flask import current_app
 
 # DeepSeek API配置
-DEEPSEEK_API_KEY = os.environ.get('DEEPSEEK_API_KEY', 'sk-a5e5bd9745eb4a97ac1bcd7257e0feff')
+DEEPSEEK_API_KEY = os.environ.get('DEEPSEEK_API_KEY', '2a7e2647-866e-4eb5-9c43-fc288ebc2222')
 DEEPSEEK_API_URL = "https://api.deepseek.com/v1/chat/completions"
 
 def deepseek_chat_completion(messages, temperature=0.7, max_tokens=2000):
