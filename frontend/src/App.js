@@ -2,7 +2,6 @@ import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
-import { SpeedInsights } from '@vercel/speed-insights/react';
 
 // 页面组件
 import Home from './pages/Home';
@@ -48,7 +47,6 @@ function App() {
         <Route path="/results" element={<Results />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
-      <SpeedInsights />
     </ThemeProvider>
   );
 }
