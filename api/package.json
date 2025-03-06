@@ -1,0 +1,1 @@
+{"name":"ai-interview-api","version":"1.0.0","scripts":{"build":"cd api && pip install -r requirements.txt"}}
