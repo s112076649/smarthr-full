@@ -7,7 +7,7 @@
       "use": "@vercel/static-build",
       "config": {
         "distDir": "frontend/build",
-        "buildCommand": "npm install && npm run build"
+        "buildCommand": "cd frontend && npm install @vercel/speed-insights --legacy-peer-deps && npm run build"
       }
     },
     {
