@@ -1,30 +1,29 @@
 {
-  "version": 2,
-  "builds": [
+  "buildCommand": "cd frontend && npm install && CI=false npm run build",
+  "outputDirectory": "frontend/build",
+  "installCommand": "cd frontend && npm install",
+  "framework": "create-react-app",
+  "rewrites": [
     {
-      "src": "frontend/package.json",
-      "use": "@vercel/static-build",
-      "config": {
-        "distDir": "build"
-      }
+      "source": "/api/test",
+      "destination": "/api/test.py"
     },
     {
-      "src": "api/**/*.py",
-      "use": "@vercel/python"
+      "source": "/api/speech/tts",
+      "destination": "/api/speech/tts.py"
+    },
+    {
+      "source": "/api/(.*)",
+      "destination": "/api/$1"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
     }
   ],
-  "routes": [
-    {
-      "src": "/api/speech/tts",
-      "dest": "/api/speech/tts.py"
-    },
-    {
-      "src": "/api/(.*)",
-      "dest": "/api/$1"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/frontend/build/$1"
+  "functions": {
+    "api/**/*.py": {
+      "runtime": "@vercel/python@3.1.0"
     }
-  ]
+  }
 }
