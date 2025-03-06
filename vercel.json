@@ -6,8 +6,8 @@
       "src": "package.json",
       "use": "@vercel/static-build",
       "config": {
-        "distDir": "frontend/build",
-        "buildCommand": "cd frontend && npm install @vercel/speed-insights --legacy-peer-deps && npm run build"
+        "distDir": "smarthr-interview/build",
+        "buildCommand": "cd smarthr-interview && npm install && npm run build"
       }
     },
     {
@@ -33,7 +33,7 @@
     },
     {
       "src": "/(.*)",
-      "dest": "/frontend/build/index.html"
+      "dest": "/smarthr-interview/build/index.html"
     }
   ]
 }
