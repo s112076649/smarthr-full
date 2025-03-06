@@ -1,5 +1,6 @@
 {
   "version": 2,
+  "description": "AI面试模拟系统 - 更新于2024-03-06",
   "builds": [
     {
       "src": "package.json",
