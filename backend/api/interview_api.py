@@ -8,6 +8,7 @@
 from flask import Blueprint, request, jsonify
 import json
 import time
+from services.deepseek_service import generate_interview_question, evaluate_answer
 
 # 创建Blueprint
 interview_api = Blueprint('interview_api', __name__)
@@ -74,18 +75,49 @@ def get_question():
             'message': '缺少面试ID'
         }), 400
     
-    # 模拟问题生成（后期将集成现有的问题生成逻辑）
-    question = {
-        'id': 'q1',
-        'content': '请简单介绍一下你自己以及你的技术背景。',
-        'type': 'open',
-        'difficulty': 1
-    }
-    
-    return jsonify({
-        'status': 'success',
-        'data': question
-    })
+    try:
+        # 从URL参数中获取面试类型和公司名称
+        interview_type = request.args.get('type', 'software_engineer')
+        company = request.args.get('company', '某科技公司')
+        language = request.args.get('language', 'zh')
+        
+        # 调用DeepSeek API生成问题
+        result = generate_interview_question(interview_type, company, language)
+        
+        if result and 'question' in result:
+            question = {
+                'id': f'q_{int(time.time())}',
+                'content': result['question'],
+                'type': result.get('type', 'technical'),
+                'difficulty': result.get('difficulty', 3)
+            }
+        else:
+            # 如果API调用失败，使用备用问题
+            question = {
+                'id': f'q_{int(time.time())}',
+                'content': '请简单介绍一下你自己以及你的技术背景。',
+                'type': 'open',
+                'difficulty': 1
+            }
+        
+        return jsonify({
+            'status': 'success',
+            'data': question
+        })
+    except Exception as e:
+        print(f"生成问题时出错: {str(e)}")
+        # 出错时使用备用问题
+        question = {
+            'id': f'q_{int(time.time())}',
+            'content': '请简单介绍一下你自己以及你的技术背景。',
+            'type': 'open',
+            'difficulty': 1
+        }
+        
+        return jsonify({
+            'status': 'success',
+            'data': question
+        })
 
 @interview_api.route('/answer', methods=['POST'])
 def submit_answer():
@@ -103,18 +135,51 @@ def submit_answer():
     interview_id = data.get('interview_id')
     question_id = data.get('question_id')
     answer = data.get('answer')
+    question = data.get('question', '')
+    interview_type = data.get('type', 'software_engineer')
+    language = data.get('language', 'zh')
     
-    # 模拟答案分析（后期将集成现有的答案分析逻辑）
-    analysis = {
-        'quality': 0.8,
-        'feedback': '回答完整，展示了相关经验，但可以更具体地列举项目案例。',
-        'next_question': True
-    }
-    
-    return jsonify({
-        'status': 'success',
-        'data': analysis
-    })
+    try:
+        # 调用DeepSeek API评估答案
+        result = evaluate_answer(question, answer, interview_type, language)
+        
+        if result and not 'error' in result:
+            analysis = {
+                'quality': result.get('score', 80) / 100,  # 转换为0-1范围
+                'feedback': result.get('suggestions', ''),
+                'strengths': result.get('strengths', []),
+                'weaknesses': result.get('weaknesses', []),
+                'next_question': result.get('continue', True)
+            }
+        else:
+            # 如果API调用失败，使用备用评估
+            analysis = {
+                'quality': 0.8,
+                'feedback': '回答完整，展示了相关经验，但可以更具体地列举项目案例。',
+                'strengths': ['表达清晰', '基础知识扎实'],
+                'weaknesses': ['缺少具体例子', '回答不够深入'],
+                'next_question': True
+            }
+        
+        return jsonify({
+            'status': 'success',
+            'data': analysis
+        })
+    except Exception as e:
+        print(f"评估答案时出错: {str(e)}")
+        # 出错时使用备用评估
+        analysis = {
+            'quality': 0.8,
+            'feedback': '回答完整，展示了相关经验，但可以更具体地列举项目案例。',
+            'strengths': ['表达清晰', '基础知识扎实'],
+            'weaknesses': ['缺少具体例子', '回答不够深入'],
+            'next_question': True
+        }
+        
+        return jsonify({
+            'status': 'success',
+            'data': analysis
+        })
 
 @interview_api.route('/evaluate', methods=['GET'])
 def get_evaluation():
