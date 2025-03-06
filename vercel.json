@@ -1,1 +1,25 @@
-{"buildCommand":"cd frontend && npm install && npm run build","outputDirectory":"frontend/build","installCommand":"cd frontend && npm install","framework":"create-react-app","rewrites":[{"source":"/api/speech/tts","destination":"/api/speech/tts.py"},{"source":"/api/(.*)","destination":"/api/$1"},{"source":"/(.*)","destination":"/index.html"}],"functions":{"api/**/*.py":{"runtime":"python3"}}}
+{
+  "buildCommand": "cd frontend && npm install && npm run build",
+  "outputDirectory": "frontend/build",
+  "installCommand": "cd frontend && npm install",
+  "framework": "create-react-app",
+  "rewrites": [
+    {
+      "source": "/api/speech/tts",
+      "destination": "/api/speech/tts.py"
+    },
+    {
+      "source": "/api/(.*)",
+      "destination": "/api/$1"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ],
+  "functions": {
+    "api/**/*.py": {
+      "runtime": "@vercel/python@3.1.0"
+    }
+  }
+}
