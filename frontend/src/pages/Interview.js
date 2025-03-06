@@ -30,7 +30,7 @@ import {
   ExitToApp as ExitIcon,
   Help as HelpIcon
 } from '@mui/icons-material';
-// import axios from 'axios';
+import api from '../services/api';
 
 // 录音功能
 const useRecorder = () => {
