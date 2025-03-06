@@ -3,12 +3,8 @@
   "description": "AI面试模拟系统 - 更新于2024-03-06",
   "builds": [
     {
-      "src": "package.json",
-      "use": "@vercel/static-build",
-      "config": {
-        "distDir": "smarthr-interview/build",
-        "buildCommand": "cd smarthr-interview && npm install && npm run build"
-      }
+      "src": "frontend/build/**",
+      "use": "@vercel/static"
     },
     {
       "src": "api/**/*.py",
@@ -33,7 +29,11 @@
     },
     {
       "src": "/(.*)",
-      "dest": "/smarthr-interview/build/index.html"
+      "dest": "/frontend/build/$1"
+    },
+    {
+      "src": "/",
+      "dest": "/frontend/build/index.html"
     }
   ]
 }
