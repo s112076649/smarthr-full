@@ -125,5 +125,9 @@ npm run build
 
 如有任何问题或建议，请通过以下方式联系我们：
 
-- 项目主页：[GitHub项目地址]
-- 电子邮件：[您的邮箱] 
+- 项目主页：https://github.com/s112076649/smarthr-interview.git
+- 电子邮件：Kevinhuang98321@gmail.com
+
+## 更新日志
+
+- 2024-03-06: 修复了构建问题，移除了 SpeedInsights 组件 
