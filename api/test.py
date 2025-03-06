@@ -1,0 +1,1 @@
+from http.server import BaseHTTPRequestHandler; import json; class Handler(BaseHTTPRequestHandler): def do_GET(self): self.send_response(200); self.send_header("Content-Type", "application/json"); self.end_headers(); self.wfile.write(json.dumps({"status": "success", "message": "测试API正常工作"}).encode("utf-8"))
